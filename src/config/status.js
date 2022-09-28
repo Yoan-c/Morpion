@@ -1,0 +1,8 @@
+const NOTFOUND = 404
+const UNAUTHENTICATED = 401
+const UNAUTORIZED = 403
+const OK = 200
+
+module.exports = {
+    NOTFOUND, UNAUTHENTICATED, UNAUTORIZED, OK
+}
