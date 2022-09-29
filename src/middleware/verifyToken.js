@@ -20,15 +20,10 @@ const verifyToken = (req, res, next) => {
                 return
             }
             else {
+                req.name = decoded.name
                 next()
             }
         })
-        /*  jwt.verify(token, pkey);
-                        message = {
-                            token: token
-                        }*/
-        //  res.setHeader('bearer', token)
-
     }
     else {
         const datas = {

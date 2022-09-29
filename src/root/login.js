@@ -25,7 +25,7 @@ module.exports = (app) => {
                         .then(result => {
                             if (result) {
                                 console.log(`User autorisé `)
-                                const token = jwt.sign({ name: user.name }, pkey, { expiresIn: '1m' })
+                                const token = jwt.sign({ name: user.username }, pkey, { expiresIn: '1h' })
 
                                 dataSend.status = status.OK
                                 dataSend.data = { token: token }
