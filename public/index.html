@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/normalize.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/style-responsive.css" />
+    <title>Morpion</title>
+</head>
+
+<body>
+    <header>
+        <div class="header">
+            <div id="login">Se connecter</div>
+            <div id="sign">Créer un compte</div>
+        </div>
+    </header>
+    <main class="log-main">
+        <form action="" class="form" id="login-form">
+            <label for="username" class="label-form"> Pseudo </label>
+            <input type="text" id="username" class="label-input" name="username" placeholder="Username" />
+            <label for="password" class="label-form"> Mot de passe</label>
+            <input type="password" id="password" class="label-input" name="password" placeholder="Password" />
+            <input type="submit" class="btn btn-form" name="submit" id="submit" value="submit" />
+        </form>
+        <form action="" class="form create-form" id="sign-form">
+            <label for="usernameCreate" class="label-form"> Pseudo </label>
+            <input type="text" id="usernameCreate" class="label-input" name="username" placeholder="Username" />
+            <label for="passwordCreate" class="label-form"> Mot de passe</label>
+            <input type="password" id="passwordCreate" class="label-input" name="password" placeholder="Password" />
+            <label for="confirmPasswordCreate" class="label-form"> Confirmation mot de passe</label>
+            <input type="password" id="confirmPasswordCreate" class="label-input" name="confirmPpassword"
+                placeholder="Confirmation" />
+            <input type="submit" class="btn btn-form" name="submit" id="submitCreate" value="submit" />
+        </form>
+    </main>
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-close" id="modal-close">
+                    &#x2716;
+                </div>
+                <div class="modal-rules">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales bibendum elit at
+                    bibendum. Sed consectetur
+                    sed arcu id semper. Etiam orci lorem, efficitur eget lacus sollicitudin, dictum rhoncus tellus.
+                    Proin a tortor risus.
+                    Morbi augue ex, rutrum molestie euismod sit amet, condimentum id ex. Phasellus ultricies, nisi quis
+                    sodales fermentum,
+                    quam libero rhoncus ipsum, non vulputate est leo a enim. Sed luctus odio vel tincidunt cursus.
+
+                    Vestibulum accumsan porta pellentesque. Morbi porta diam et quam euismod tempor. Pellentesque mollis
+                    odio nec orci
+                    mattis vulputate. Morbi arcu est, efficitur sed consequat nec, laoreet hendrerit mauris. Maecenas
+                    lobortis tellus a
+                    lorem semper, id imperdiet augue suscipit. Fusce diam diam, aliquam quis malesuada nec, volutpat nec
+                    nisi. Aliquam non
+                    iaculis augue. Proin vitae sem lobortis, porttitor justo sit amet, lobortis nisl. Aenean ut aliquet
+                    sem. Nunc posuere
+                    orci sapien, quis ultricies turpis ullamcorper vitae.
+                </div>
+                <button class="btn modal-btn" id="modal-accept">j'ai comrpis</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

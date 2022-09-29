@@ -1,10 +1,11 @@
 const { userModel } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
+const userSocket = require('../socket/userSocket')
 const jwt = require('jsonwebtoken')
 const pkey = require('../models/customKey')
 const status = require('../config/status')
 
-module.exports = (app) => {
+module.exports = (app, io) => {
     let dataSend = {
         status: 200,
         data: {}
@@ -26,10 +27,12 @@ module.exports = (app) => {
                             if (result) {
                                 console.log(`User autorisé `)
                                 const token = jwt.sign({ name: user.username }, pkey, { expiresIn: '1h' })
-
+                                userSocket.users = userSocket.addUserSocket(1, user)
+                                io.emit('message', "WELCOME SERVEUR")
                                 dataSend.status = status.OK
-                                dataSend.data = { token: token }
+                                dataSend.data = { token }
                                 res.status(status.OK).json({ dataSend })
+                                //       return
 
                             }
                             else {

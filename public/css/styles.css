@@ -1,0 +1,179 @@
+/*
+regle pour telecharger une font
+@font-face {
+    font-family: "Bodo Amat";
+    src: url("/public/font/BodoAmat.woff");
+}
+*/
+
+body {
+    font-family: "Bodo Amat";
+    font-size: 12px;
+}
+
+header {
+    background: #50658F;
+    color: white;
+    min-height: 12vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+header a {
+    color: white;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 12vh;
+    text-align: center;
+
+}
+
+.btn {
+    background-color: #50658F;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    height: 40px;
+    width: 200px;
+    text-align: center;
+}
+
+/* 
+=================================================================
+    FORM
+=================================================================
+*/
+.log-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    width: 100%;
+    margin: auto auto;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.label-form {
+    margin: 15px 0;
+    font-size: medium;
+}
+
+.label-input {
+    width: 200px;
+    height: 24px;
+    padding: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.btn-form {
+    margin: 20px auto;
+}
+
+.create-form {
+    display: none;
+}
+
+/*
+    ASIDE liste joueur co
+*/
+.aside {
+    display: none;
+}
+
+
+/*
+    CONTENU MORPION
+*/
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 70vh;
+}
+
+.mainContent {
+    margin: auto auto;
+}
+
+.contentMorpion {
+    margin-top: 80px;
+}
+
+.table {
+    font-size: 24px;
+    border: 1px solid #c49B93;
+    width: 250px;
+    height: 230px;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 2px solid #c49B93;
+}
+
+/*
+    MODAL
+*/
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.modal-content {
+    display: flex;
+    background-color: white;
+    height: 350px;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 20px;
+    width: 100%;
+}
+
+.modal-close {
+    align-self: flex-end;
+    position: relative;
+    right: 20px;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+.modal-rules {
+    margin-top: 25px;
+    align-self: center;
+    overflow: auto;
+    height: 200px;
+    width: 250px;
+    margin-bottom: 25px;
+}
+
+.modal-btn {
+    align-self: center;
+}
