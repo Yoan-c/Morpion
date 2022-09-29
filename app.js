@@ -26,6 +26,9 @@ io.on('connection', (socket) => {
     console.log(`NEW WS CONNECTION ${userSocket.users}`)
 
     socket.emit('message', "WELCOME")
+    socket.on('play', (data) => {
+        console.log(`RECU du client ${data.tabGame}`)
+    })
 
 })
 

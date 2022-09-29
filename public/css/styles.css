@@ -107,7 +107,7 @@ main {
 }
 
 .contentMorpion {
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
 .table {
@@ -121,6 +121,49 @@ main {
 th,
 td {
     border: 2px solid #c49B93;
+}
+
+td {
+
+    height: 60px;
+    width: 60px;
+}
+
+
+
+.showX {
+    animation: 1s ease-in slideinX;
+}
+
+.showO {
+    animation: 1s ease-in slideinO;
+}
+
+@keyframes slideinX {
+    from {
+
+        transform: scaleX(0) rotate(0deg);
+
+    }
+
+    to {
+
+        transform: scaleX(1) rotate(360deg);
+    }
+}
+
+@keyframes slideinO {
+    from {
+
+        transform: scaleX(0);
+
+    }
+
+    to {
+
+        transform: scaleX(1) rotateZ(10deg);
+
+    }
 }
 
 /*
