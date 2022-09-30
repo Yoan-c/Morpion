@@ -11,7 +11,7 @@ const userModel = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: {
-                msg: 'Un utilisateur avec le même nom existe déjà'
+                msg: 'Un utilisateur avec le même pseudo existe déjà'
             }
         },
         password: {

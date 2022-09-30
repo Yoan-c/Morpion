@@ -19,9 +19,7 @@ const port = process.env.PORT || 3000
 
 sequelize.initDb()
 
-app.get('/vsia', (req, res) => {
-    res.sendFile(__dirname + '/public/morpion.html');
-});
+
 io.on('connection', (socket) => {
     console.log(`NEW WS CONNECTION ${userSocket.users}`)
 
@@ -37,6 +35,7 @@ require('./src/root/api/login')(app)
 require('./src/root/api/games')(app)
 require('./src/root/api/authorization')(app)
 require('./src/root/api/deconnexion')(app)
+require('./src/root/api/create')(app)
 require('./src/root/accueil')(app)
 require('./src/root/index')(app)
 

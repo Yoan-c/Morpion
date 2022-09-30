@@ -29,7 +29,7 @@ module.exports = (app) => {
                                 console.log(`User autorisé ${token}`)
                                 user.isConnected = true
                                 user.update({ isConnected: true }, { where: { username: user.username } })
-                                userSocket.users = userSocket.addUserSocket(1, user)
+                                userSocket.users = userSocket.addUserSocket(1, user, true)
                                 dataSend.status = status.OK
                                 dataSend.data = { token }
                                 res.status(status.OK).json({ dataSend })

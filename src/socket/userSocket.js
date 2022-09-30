@@ -1,9 +1,10 @@
 let users = []
 
-function addUserSocket(id, user) {
+function addUserSocket(id, user, isConnected) {
     data = {
         id,
-        name: user.username
+        name: user.username,
+        isConnected
     }
     users = [...users, { data }]
     return users
