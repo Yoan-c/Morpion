@@ -1,11 +1,11 @@
-const { userModel } = require('../db/sequelize')
+const { userModel } = require('../../db/sequelize')
 const bcrypt = require('bcrypt')
-const userSocket = require('../socket/userSocket')
+const userSocket = require('../../socket/userSocket')
 const jwt = require('jsonwebtoken')
-const pkey = require('../models/customKey')
-const status = require('../config/status')
+const pkey = require('../../models/customKey')
+const status = require('../../config/status')
 
-module.exports = (app, io) => {
+module.exports = (app) => {
     let dataSend = {
         status: 200,
         data: {}
@@ -25,10 +25,11 @@ module.exports = (app, io) => {
                     bcrypt.compare(password, user.password)
                         .then(result => {
                             if (result) {
-                                console.log(`User autorisé `)
                                 const token = jwt.sign({ name: user.username }, pkey, { expiresIn: '1h' })
+                                console.log(`User autorisé ${token}`)
+                                user.isConnected = true
+                                user.update({ isConnected: true }, { where: { username: user.username } })
                                 userSocket.users = userSocket.addUserSocket(1, user)
-                                io.emit('message', "WELCOME SERVEUR")
                                 dataSend.status = status.OK
                                 dataSend.data = { token }
                                 res.status(status.OK).json({ dataSend })
@@ -45,7 +46,7 @@ module.exports = (app, io) => {
                 }
                 else {
                     dataSend.status = status.UNAUTORIZED
-                    dataSend.data = { message: "authentification refusé " }
+                    dataSend.data = { message: "Veuillez verifier votre login et mot de passe " }
                     res.status(status.UNAUTORIZED).json({ dataSend })
                 }
             })

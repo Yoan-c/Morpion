@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const statusCode = require('../config/status')
-const verifyToken = require('../middleware/verifyToken')
+const statusCode = require('../../config/status')
+const verifyToken = require('../../middleware/verifyToken')
 
 module.exports = (app) => {
     app.get('/games', verifyToken, (req, res) => {

@@ -33,9 +33,12 @@ io.on('connection', (socket) => {
 })
 
 // route
-require('./src/root/login')(app, io)
+require('./src/root/api/login')(app)
+require('./src/root/api/games')(app)
+require('./src/root/api/authorization')(app)
+require('./src/root/api/deconnexion')(app)
+require('./src/root/accueil')(app)
 require('./src/root/index')(app)
-require('./src/root/games')(app)
 
 
 server.listen(port, () => {

@@ -1,6 +1,8 @@
+const path = require('path')
+
 module.exports = (app) => {
     app.get('/', (req, res) => {
-        console.log('route entree')
-        res.json('Hello world tessst ')
+        console.log(path)
+        res.sendFile(path.join(__dirname, '../../public', 'index.html'))
     })
 }

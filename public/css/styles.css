@@ -53,9 +53,16 @@ header a {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     height: 50vh;
     width: 100%;
     margin: auto auto;
+}
+
+.msgInfo {
+    color: red;
+    font-weight: 100;
+    font-size: x-small;
 }
 
 .form {
@@ -180,7 +187,9 @@ td {
     display: flex;
     align-items: center;
     justify-content: center;
+    /*
     display: none;
+    */
 }
 
 .modal-content {
