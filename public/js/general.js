@@ -8,4 +8,8 @@ deconnect.onclick = () => {
                 localStorage.removeItem('token')
             }
         })
+        .catch(err => {
+            redirectConnect()
+            localStorage.removeItem('token')
+        })
 }

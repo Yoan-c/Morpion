@@ -94,8 +94,8 @@ const ask = (token, url) => {
             .then(result => result.json())
             .then(result => {
                 let data = result.data
-                if (data) {
-                    resolve(data)
+                if (data.isConnected) {
+                    resolve(data.isConnected)
                 }
                 else {
                     reject(false)

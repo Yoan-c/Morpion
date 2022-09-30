@@ -1,6 +1,5 @@
 const { userModel } = require('../../db/sequelize')
 const bcrypt = require('bcrypt')
-const userSocket = require('../../socket/userSocket')
 const jwt = require('jsonwebtoken')
 const pkey = require('../../models/customKey')
 const status = require('../../config/status')
@@ -29,7 +28,6 @@ module.exports = (app) => {
                                 console.log(`User autorisé ${token}`)
                                 user.isConnected = true
                                 user.update({ isConnected: true }, { where: { username: user.username } })
-                                userSocket.users = userSocket.addUserSocket(1, user, true)
                                 dataSend.status = status.OK
                                 dataSend.data = { token }
                                 res.status(status.OK).json({ dataSend })

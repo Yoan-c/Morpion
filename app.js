@@ -5,6 +5,7 @@ const sequelize = require('./src/db/sequelize')
 const bodyParser = require('body-parser')
 const path = require('path')
 const userSocket = require('./src/socket/userSocket')
+const checkToken = require('./src/functions/checkToken')
 
 const app = express()
 const server = http.createServer(app)
@@ -22,10 +23,23 @@ sequelize.initDb()
 
 io.on('connection', (socket) => {
     console.log(`NEW WS CONNECTION ${userSocket.users}`)
+    socket.emit('players', userSocket.users)
 
     socket.emit('message', "WELCOME")
     socket.on('play', (data) => {
         console.log(`RECU du client ${data.tabGame}`)
+    })
+    socket.on('inscritpion', (token) => {
+        checkToken(token)
+            .then(data => {
+                if (data.isConnected)
+                    userSocket.users = userSocket.addUserSocket(socket.id, data.username, data.isConnected, data.updateAt)
+                console.log(`tabUserSocket ${JSON.stringify(userSocket.users)}`)
+            })
+            .catch(err => {
+                console.log(`erreur ${err}`)
+            })
+
     })
 
 })
