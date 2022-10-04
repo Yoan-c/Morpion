@@ -23,6 +23,14 @@ function searchtabGameSocket(id) {
     return tabGameSocket.find(tab => tab.id == id)
 }
 
+function resetTab(tab) {
+    for (let i = 0; i < 9; i++) {
+        tab.oldTab[i] = false
+        tab.newTab[i] = false
+    }
+    return tab
+}
+
 module.exports = {
-    tabGameSocket, addtabGameSocket, modifTabSocket, searchtabGameSocket
+    tabGameSocket, addtabGameSocket, modifTabSocket, searchtabGameSocket, resetTab
 }

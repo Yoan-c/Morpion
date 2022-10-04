@@ -27,7 +27,6 @@ sequelize.initDb()
 io.on('connection', (socket) => {
     console.log(`NEW WS CONNECTION ${socket.id}`)
 
-
     //socket.emit('players', userSocket.users)
     socket.on('loadGame', (data) => {
         checkToken(data.token)
@@ -66,7 +65,7 @@ io.on('connection', (socket) => {
                             console.log(`entre la`)
                             if (res.win || res.end) {
                                 console.log(`STOPPER LE JEU ${JSON.stringify(res)}`)
-                                io.to(user.room).emit('endGame', res)
+                                io.to(user.room).emit('endGame', { res, username: user.name })
                             }
                             else {
                                 user.isMyTurn = true
@@ -92,6 +91,7 @@ io.on('connection', (socket) => {
                 console.log(`erreur play ${err}`)
             })
     })
+
     socket.on('inscritpion', (token) => {
         checkToken(token)
             .then(data => {
@@ -103,6 +103,7 @@ io.on('connection', (socket) => {
             })
 
     })
+
     socket.on("IA", data => {
 
         checkToken(data.token)
@@ -121,7 +122,23 @@ io.on('connection', (socket) => {
                 userSocket.modifUser(user)
             })
             .catch(err => {
-                console.log(`erreur socket IA${err}`)
+                console.log(`erreur socket IA ${err}`)
+            })
+    })
+    socket.on("reset", data => {
+        checkToken(data.token)
+            .then(res => {
+                let user = userSocket.searchUserSocket(res.username)
+                let room = user.room
+                user = userSocket.resetUser(user)
+                user.room = room
+                user.idTab = room
+                let tab = tabSocket.searchtabGameSocket(user.idTab)
+                tab = tabSocket.resetTab(tab)
+
+            })
+            .catch(err => {
+                console.log(`erreur socket RESET ${err}`)
             })
     })
 

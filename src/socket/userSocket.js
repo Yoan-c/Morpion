@@ -48,6 +48,16 @@ function searchUserSocket(name) {
     return users.find(user => user.name == name)
 }
 
+function resetUser(user) {
+    user.room = ""
+    user.choice = ""
+    user.versus = ""
+    user.idTab = ""
+    user.isMyTurn = false
+    user.isEnd = false
+    return user
+}
+
 module.exports = {
-    users, addUserSocket, modifConnect, searchUserSocket, modifUser
+    users, addUserSocket, modifConnect, searchUserSocket, modifUser, resetUser
 }

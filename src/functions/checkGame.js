@@ -71,7 +71,6 @@ function checkWin(currentTab) {
         if (currentTab[tabWinCondition[i][0]] === currentTab[tabWinCondition[i][1]] &&
             currentTab[tabWinCondition[i][1]] === currentTab[tabWinCondition[i][2]] &&
             currentTab[tabWinCondition[i][0]] !== false) {
-            console.log(`FIN ${JSON.stringify(tabWinCondition[i])}`)
             return true
         }
     }

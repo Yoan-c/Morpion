@@ -6,9 +6,13 @@ window.onload = (e) => {
     let defiName = document.getElementById('defiName')
     let modal = document.getElementById('modal')
     let modalClose = document.getElementById('modal-close')
-    let reset = document.getElementById('reset')
+    let quit = document.getElementById('quit')
     modalClose.onclick = () => {
         modal.style.display = 'none';
+    }
+    quit.onclick = () => {
+        socket.emit('reset', { token })
+        document.location.href = "/accueil"
     }
 
     let tabCase = []
@@ -23,7 +27,6 @@ window.onload = (e) => {
             data = { token }
             socket.emit('loadGame', data)
             socket.on('loadGame', (res) => {
-                console.log(`Premier chargement de la game ${JSON.stringify(res)}`)
                 loadgame(res)
             })
 
@@ -63,8 +66,6 @@ window.onload = (e) => {
             round.dataset.isRound = 0;
             tabCase[position - 1].isPlayed = true
             setPositionGame(position, tabCase, dataGame.versus)
-            console.log(`position de la target ${modal.style.display}`)
-
             setTimeout(() => {
                 round.innerHTML = `Au tour de ${dataGame.versus}`
             }, 1200)
@@ -77,8 +78,6 @@ window.onload = (e) => {
     }
 
     function setPositionGame(position, tabCase, versus) {
-
-        console.log("ENVOI SOCKET")
         tabGame = tabCase.map(data => data.isPlayed)
         data = { position, tabGame, token, versus }
         socket.emit('play', data)
@@ -98,10 +97,27 @@ window.onload = (e) => {
         }, 1200)
 
     })
-    socket.on('endGame', dataWin => {
-        console.log(`message Fin de game ${JSON.stringify(dataWin)}`)
+    socket.on('endGame', dataEnd => {
+        console.log(`message Fin de game ${JSON.stringify(dataEnd)}`)
+        let endMsg = document.getElementById(`endMsg`)
+        let msg
+        if (dataEnd.res.win) {
+
+            console.log(`message Fin de game win `)
+            if (dataEnd.res.name === dataEnd.username) {
+                msg = `Bravo vous avez gagné la parite`
+            }
+            else
+                msg = `Dommage vous avez perdu`
+
+            endMsg.innerHTML = msg
+        }
+        else if (dataEnd.res.end) {
+            endMsg.innerHTML = "Match NUL"
+        }
         modal.style.display = 'flex'
     })
+
 }
 
 
