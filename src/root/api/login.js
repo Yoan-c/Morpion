@@ -20,22 +20,17 @@ module.exports = (app) => {
         userModel.findOne({ where: { username: username } })
             .then(user => {
                 if (user) {
-                    console.log(`User found ${user.password}`)
                     bcrypt.compare(password, user.password)
                         .then(result => {
                             if (result) {
                                 const token = jwt.sign({ name: user.username }, pkey, { expiresIn: '1h' })
-                                console.log(`User autorisé ${token}`)
                                 user.isConnected = true
                                 user.update({ isConnected: true }, { where: { username: user.username } })
                                 dataSend.status = status.OK
                                 dataSend.data = { token }
                                 res.status(status.OK).json({ dataSend })
-                                //       return
-
                             }
                             else {
-                                console.log(`User pas autorisé `)
                                 dataSend.status = status.UNAUTORIZED
                                 dataSend.data = { message: `Veuillez verifier votre login et mot de passe` }
                                 res.status(status.UNAUTORIZED).json({ dataSend })
@@ -48,6 +43,5 @@ module.exports = (app) => {
                     res.status(status.UNAUTORIZED).json({ dataSend })
                 }
             })
-
     })
 }

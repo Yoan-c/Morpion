@@ -34,6 +34,14 @@ header a {
 
 }
 
+#login,
+#sign,
+#defiIA,
+#defiPlayer,
+#deconnect {
+    cursor: pointer;
+}
+
 .btn {
     background-color: #50658F;
     color: white;
@@ -187,9 +195,8 @@ td {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*
     display: none;
-    */
+
 }
 
 .modal-content {
@@ -220,12 +227,79 @@ td {
 .modal-rules {
     margin-top: 25px;
     align-self: center;
-    overflow: auto;
+    overflow: overlay;
     height: 200px;
     width: 250px;
     margin-bottom: 25px;
+    padding-right: 10px;
+}
+
+.modal-text {
+    padding-right: 5px;
 }
 
 .modal-btn {
     align-self: center;
+}
+
+#btnEasy {
+    background-color: darkcyan;
+}
+
+#btnHard {
+    background-color: darkred
+}
+
+#btnEasy,
+#btnHard {
+    margin: 30px auto;
+    position: relative;
+    left: 30px;
+}
+
+#btnEasy:hover,
+#btnHard:hover {
+
+    animation: .2s linear rotateHover;
+    animation-fill-mode: forwards
+}
+
+#X,
+#O {
+    font-size: 17px;
+    width: 248px;
+    height: 28px;
+    cursor: pointer;
+}
+
+#O {
+    margin-top: 100px;
+}
+
+#choiceX,
+#choiceO {
+    font-size: 20px;
+}
+
+#choiceX {
+    color: #50658F;
+}
+
+#choiceO {
+    color: #C49B93;
+}
+
+#X {
+    margin-top: 20px;
+}
+
+@keyframes rotateHover {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.2);
+    }
+
 }

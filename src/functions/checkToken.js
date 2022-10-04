@@ -20,12 +20,12 @@ const checkToken = (token) => {
                         let data = {
                             username: "",
                             isConnected: false,
-                            updateAt: 0
+                            updatedAt: 0
                         }
                         if (user && user.isConnected) {
                             data.username = user.username
                             data.isConnected = user.isConnected
-                            data.updateAt = user.updateAt
+                            data.updatedAt = user.updatedAt
                             resolve(data)
                         }
                         else {

@@ -9,9 +9,7 @@ const password = ''
 const sequelize = new Sequelize(database, host, password, {
     host: 'localhost',
     dialect: 'mariadb',
-    logging: (log) => {
-        console.log("db LOG " + log)
-    }
+    logging: false
 })
 
 const userModel = UserModel(sequelize, DataTypes)

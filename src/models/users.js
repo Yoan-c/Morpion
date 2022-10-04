@@ -16,7 +16,8 @@ const userModel = (sequelize, DataTypes) => {
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+
         },
         isConnected: {
             type: DataTypes.BOOLEAN,

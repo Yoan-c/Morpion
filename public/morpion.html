@@ -14,9 +14,9 @@
 <body>
     <header>
         <div class="header">
-            <div> Défier l'IA </div>
-            <div> Défier un joueur</div>
-            <div> Se déconnecter</div>
+            <div id="defiIA"> Défier l'IA </div>
+            <div id="defiPlayer"> Défier un joueur</div>
+            <div id="deconnect"> Se déconnecter</div>
         </div>
     </header>
     <aside class="aside">
@@ -24,7 +24,7 @@
     </aside>
     <main>
         <div class="mainContent">
-            <p class="defiName">Vous défiez Ti-metiss au Morpion</p>
+            <p class="defiName" id="defiName"></p>
             <p>Vous avez choisi les <span id="choice">X</span></p>
             <p class="roundPlay" id="roundPlay" data-is-round=1>A votre tour de jouer</p>
             <div class="contentMorpion">
@@ -35,20 +35,35 @@
                         <td id="case_3"></td>
                     </tr>
                     <tr>
-                        <td id="case_4">X</td>
-                        <td id="case_5">O</td>
-                        <td id="case_6">X</td>
+                        <td id="case_4"></td>
+                        <td id="case_5"></td>
+                        <td id="case_6"></td>
                     </tr>
                     <tr>
-                        <td id="case_7">X</td>
-                        <td id="case_8">O</td>
-                        <td id="case_9">X</td>
+                        <td id="case_7"></td>
+                        <td id="case_8"></td>
+                        <td id="case_9"></td>
                     </tr>
                 </table>
             </div>
         </div>
     </main>
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-close" id="modal-close">
+                    &#x2716;
+                </div>
+                <div class="modal-enGame" id="modal-enGame">
+                    <button class="reset" id="reset">Recommencer</button>
+                    <button class="quit" id="quit">Quitter</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/general.js"></script>
     <script src="js/morpion.js"></script>
 </body>
 

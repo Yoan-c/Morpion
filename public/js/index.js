@@ -7,6 +7,8 @@ let createForm = document.getElementById('sign-form')
 let submit = document.getElementById('submit')
 let submitCreate = document.getElementById('submitCreate')
 let msgInfo = document.getElementById('msgInfo')
+let modal = document.getElementById('modal');
+modal.style.display = 'flex';
 
 const addModal = () => {
     let modal = document.getElementById('modal')
