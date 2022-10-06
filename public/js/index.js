@@ -9,6 +9,7 @@ let submitCreate = document.getElementById('submitCreate')
 let msgInfo = document.getElementById('msgInfo')
 let modal = document.getElementById('modal');
 modal.style.display = 'flex';
+const socket = io('http://localhost:3000');
 
 const addModal = () => {
     let modal = document.getElementById('modal')
@@ -47,6 +48,7 @@ submit.onclick = (e) => {
     login(username.value, password.value)
         .then(token => {
             localStorage.setItem('token', token)
+            socket.emit('inscritpion', token)
             document.location.href = 'http://localhost:3000/accueil'
         })
         .catch(err => {

@@ -6,8 +6,14 @@ window.onload = (e) => {
     let modal = document.getElementById('modal')
     let modalClose = document.getElementById('modal-close')
     let quit = document.getElementById('quit')
+    let defiIA = document.getElementById("defiIA")
     modalClose.onclick = () => {
         modal.style.display = 'none';
+        
+    }
+    defiIA.onclick = () => {
+        socket.emit('reset', { token })
+        document.location.href = "/accueil"
     }
     quit.onclick = () => {
         socket.emit('reset', { token })
@@ -117,6 +123,10 @@ window.onload = (e) => {
             modal.style.display = 'flex'
         }, 1500)
         
+    })
+
+    socket.on('players', players => {
+        console.log(`Players ${JSON.stringify(players)}`)
     })
 
 }

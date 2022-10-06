@@ -4,7 +4,7 @@ function addUserSocket(id, name, isConnected, updatedAt, level) {
 
     let searchUser = users.find(user => user.name == name)
 
-    if (!searchUser)
+    if (!searchUser) {
         users = [...users, {
             id,
             name,
@@ -18,6 +18,11 @@ function addUserSocket(id, name, isConnected, updatedAt, level) {
             idTab: "",
             isEnd: false
         }]
+    }
+    else {
+        searchUser.isConnected = true
+       modifUser(searchUser)
+    }
     return users
 }
 
@@ -29,7 +34,7 @@ function modifConnect(name, level) {
             user.level = level
     })
 }
-
+/*
 function modifUser(user) {
     return users.find(userData => {
         if (userData.name == user.name) {
@@ -40,6 +45,21 @@ function modifUser(user) {
             userData.isMyTurn = user.isMyTurn
             userData.idTab = user.idTab
             userData.isEnd = user.isEnd
+        }
+    })
+}
+*/
+function modifUser(user) {
+    return users.find(userData => {
+        if (userData.name == user.name) {
+            userData.level = (user.level) ?user.level : userData.level
+            userData.room = (user.room) ? user.room : userData.room
+            userData.choice = (user.choice) ? user.choice : userData.choice
+            userData.versus = (user.versus) ? user.versus : userData.versus
+            userData.isMyTurn = (user.isMyTurn) ? user.isMyTurn : userData.isMyTurn
+            userData.idTab = (user.idTab) ? user.idTab : userData.idTab 
+            userData.isEnd = (user.isEnd) ? user.isEnd : userData.isEnd
+            userData.isConnected = (user.isConnected) ? user.isConnected : userData.isConnected
         }
     })
 }

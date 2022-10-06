@@ -27,7 +27,7 @@ sequelize.initDb()
 io.on('connection', (socket) => {
     console.log(`NEW WS CONNECTION ${socket.id}`)
 
-    //socket.emit('players', userSocket.users)
+
     socket.on('loadGame', (data) => {
         checkToken(data.token)
             .then(res => {
@@ -73,8 +73,8 @@ io.on('connection', (socket) => {
                             }
                         }
                         else {
-                            //erreur recommencer
-                            //io.to()
+                            let msg = "Une erreur est survenue"
+                            io.to(user.room).emit('error_game', {msg})
                         }
                     }
                     else {
@@ -93,10 +93,13 @@ io.on('connection', (socket) => {
     })
 
     socket.on('inscritpion', (token) => {
+        console.log("ENtre ici")
         checkToken(token)
             .then(data => {
                 if (data.isConnected)
                     userSocket.users = userSocket.addUserSocket(socket.id, data.username, data.isConnected, data.updatedAt, 1)
+                let tabUserSign = userSocket.users.map(user => { return {name : user.name, isConnected : user.isConnected}})
+                socket.emit('players', tabUserSign)
             })
             .catch(err => {
                 console.log(`erreur Inscription ${err}`)

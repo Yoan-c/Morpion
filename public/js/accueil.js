@@ -10,6 +10,7 @@ window.onload = () => {
     let choiceX = document.getElementById('choiceX')
     let choiceO = document.getElementById('choiceO')
     let isChoice = 0;
+    let defiPlayer = document.getElementById('defiPlayer')
 
     if (!token) {
         redirectConnect()
@@ -34,6 +35,13 @@ window.onload = () => {
         })
     modalClose.onclick = () => {
         modal.style.display = 'none';
+    }
+    defiPlayer.onclick =() => {
+        let modalRules = document.getElementById('modal-rules')
+        let modalUsers = document.getElementById('modal-users')
+        modalRules.style.display = 'none'
+        modalUsers.innerHTML = "afficher tout les users"
+        modal.style.display = 'flex';
     }
 
     function choiceLevel(level, socket, choice) {
@@ -63,5 +71,8 @@ window.onload = () => {
 
     socket.on('message', data => {
         console.log(`RECU message serveur ${data}`)
+    })
+    socket.on('players', players => {
+        console.log(`Players ${JSON.stringify(players)}`)
     })
 }
