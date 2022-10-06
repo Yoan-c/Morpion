@@ -234,6 +234,25 @@ td {
     padding-right: 10px;
 }
 
+.modal-users {
+    display : flex;
+    justify-content : center;
+    flex-wrap : wrap; 
+    flex-direction : column;
+    align-items : center;
+}
+
+.connected, .notConnected {
+    margin-right : 10px
+}
+
+.connected{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: green;
+}
+
 .modal-text {
     padding-right: 5px;
 }

@@ -19,7 +19,6 @@ window.onload = () => {
     const socket = io('http://localhost:3000');
     ask(token, 'authorization')
         .then(result => {
-            console.log(`test ${JSON.stringify(result)}`)
             socket.emit('inscritpion', token)
             // rajouter le socket inscritpion
             // retirer le chargement 
@@ -40,8 +39,11 @@ window.onload = () => {
         let modalRules = document.getElementById('modal-rules')
         let modalUsers = document.getElementById('modal-users')
         modalRules.style.display = 'none'
-        modalUsers.innerHTML = "afficher tout les users"
+        modalUsers.innerHTML = "<p> <span class='connected'>O</span>afficher tout les users</p><p> <span class='notConnected'>O</span>afficher tout les users</p>"
         modal.style.display = 'flex';
+        socket.on('players', players => {
+            console.log(`Players ${JSON.stringify(players)}`)
+        })
     }
 
     function choiceLevel(level, socket, choice) {
@@ -72,7 +74,5 @@ window.onload = () => {
     socket.on('message', data => {
         console.log(`RECU message serveur ${data}`)
     })
-    socket.on('players', players => {
-        console.log(`Players ${JSON.stringify(players)}`)
-    })
+
 }
