@@ -1,5 +1,4 @@
 window.onload = (e) => {
-    // const socket = localStorage.getItem("IO")
     const socket = io('http://localhost:3000');
     const token = localStorage.getItem("token");
     let chx = document.getElementById('choice')
@@ -66,11 +65,6 @@ window.onload = (e) => {
             round.dataset.isRound = 0;
             tabCase[position - 1].isPlayed = true
             setPositionGame(position, tabCase, dataGame.versus)
-            setTimeout(() => {
-                round.innerHTML = `Au tour de ${dataGame.versus}`
-            }, 1200)
-
-
         }
         else {
             console.log("deja coché ou pas votre tour")
@@ -78,9 +72,12 @@ window.onload = (e) => {
     }
 
     function setPositionGame(position, tabCase, versus) {
+        let round = document.querySelector('#roundPlay');
         tabGame = tabCase.map(data => data.isPlayed)
         data = { position, tabGame, token, versus }
         socket.emit('play', data)
+        round.innerHTML = `Au tour de ${versus}`
+
     }
 
     socket.on('play', msg => {
@@ -98,7 +95,7 @@ window.onload = (e) => {
 
     })
     socket.on('endGame', dataEnd => {
-        console.log(`message Fin de game ${JSON.stringify(dataEnd)}`)
+        let round = document.querySelector('#roundPlay');
         let endMsg = document.getElementById(`endMsg`)
         let msg
         if (dataEnd.res.win) {
@@ -106,6 +103,7 @@ window.onload = (e) => {
             console.log(`message Fin de game win `)
             if (dataEnd.res.name === dataEnd.username) {
                 msg = `Bravo vous avez gagné la parite`
+                round.dataset.isRound = 0;
             }
             else
                 msg = `Dommage vous avez perdu`
@@ -115,7 +113,10 @@ window.onload = (e) => {
         else if (dataEnd.res.end) {
             endMsg.innerHTML = "Match NUL"
         }
-        modal.style.display = 'flex'
+        setTimeout(() => {
+            modal.style.display = 'flex'
+        }, 1500)
+        
     })
 
 }

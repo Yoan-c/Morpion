@@ -1,5 +1,15 @@
 
 const tabGSocket = require('../socket/tabGameSocket')
+const tabWinCondition = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
 
 function checkTab(tabGameSocket, data, user) {
     let { position, tabGame } = data
@@ -9,6 +19,8 @@ function checkTab(tabGameSocket, data, user) {
         tabGame,
         position: 0,
         choice: "X",
+        choiceVs: (user.choice === "X") ? "O" : "X",
+        username : user.name,
         end: true
     }
     position -= 1
@@ -57,16 +69,7 @@ function checkChangementTab(currentTab, newTab, position) {
 }
 
 function checkWin(currentTab) {
-    let tabWinCondition = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ]
+
     for (let i = 0; i < tabWinCondition.length; i++) {
         if (currentTab[tabWinCondition[i][0]] === currentTab[tabWinCondition[i][1]] &&
             currentTab[tabWinCondition[i][1]] === currentTab[tabWinCondition[i][2]] &&
@@ -75,6 +78,28 @@ function checkWin(currentTab) {
         }
     }
     return false
+}
+
+function checkMissinOneForWinChar(currentTab, sign) {
+
+    for (let i = 0; i < tabWinCondition.length; i++) {
+        if (currentTab[tabWinCondition[i][0]] === sign &&
+            currentTab[tabWinCondition[i][0]] === currentTab[tabWinCondition[i][1]] &&
+            currentTab[tabWinCondition[i][2]] === false) {
+            return tabWinCondition[i][2]
+        }
+        else if (currentTab[tabWinCondition[i][0]] === sign &&
+            currentTab[tabWinCondition[i][0]] === currentTab[tabWinCondition[i][2]] &&
+            currentTab[tabWinCondition[i][1]] === false) {
+            return tabWinCondition[i][1]
+        }
+        else if (currentTab[tabWinCondition[i][1]] === sign &&
+            currentTab[tabWinCondition[i][1]] === currentTab[tabWinCondition[i][2]] &&
+            currentTab[tabWinCondition[i][0]] === false) {
+            return tabWinCondition[i][0]
+        }
+    }
+    return -1
 }
 
 function checkEnd(currentTab) {
@@ -87,5 +112,5 @@ function checkEnd(currentTab) {
 }
 
 module.exports = {
-    checkTab
+    checkTab, checkMissinOneForWinChar
 }
