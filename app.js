@@ -59,6 +59,8 @@ io.on('connection', (socket) => {
                 if (data.versus === "IA") {
                     // calcul et faire jouer l'IA
                     let tabGame = tabSocket.searchtabGameSocket(user.idTab)
+                    user.IsInGame = true
+                    userSocket.modifUser(user)
                     if (tabGame) {
                         res = IAGame.IAGame(tabGame, data, user)
                         if (res) {
@@ -74,7 +76,7 @@ io.on('connection', (socket) => {
                         }
                         else {
                             let msg = "Une erreur est survenue"
-                            io.to(user.room).emit('error_game', {msg})
+                            io.to(user.room).emit('error_game', { msg })
                         }
                     }
                     else {
@@ -98,13 +100,26 @@ io.on('connection', (socket) => {
             .then(data => {
                 if (data.isConnected)
                     userSocket.users = userSocket.addUserSocket(socket.id, data.username, data.isConnected, data.updatedAt, 1)
-                let tabUserSign = userSocket.users.map(user => { return {name : user.name, isConnected : user.isConnected}})
-                socket.emit('players', tabUserSign)
+                let tabUserSign = userSocket.users.map(user => { return { name: user.name, isConnected: user.isConnected } })
+                tabUserSign = tabUserSign.filter(user => user.name !== data.username)
+                io.emit('players', tabUserSign)
             })
             .catch(err => {
                 console.log(`erreur Inscription ${err}`)
             })
 
+    })
+    socket.on('askPlayers', (token) => {
+        checkToken(token)
+            .then(data => {
+                let tabUserSign = userSocket.users.map(user => { return { name: user.name, isConnected: user.isConnected, isInGame: user.IsInGame } })
+                tabUserSign = tabUserSign.filter(user => user.name !== data.username)
+                console.log(`tabuser ${JSON.stringify(tabUserSign)}, data ${JSON.stringify(data)}`)
+                socket.emit('showPlayers', tabUserSign)
+            })
+            .catch(err => {
+                console.log(`erreur askPlayers ${err}`)
+            })
     })
 
     socket.on("IA", data => {
@@ -133,6 +148,7 @@ io.on('connection', (socket) => {
             .then(res => {
                 let user = userSocket.searchUserSocket(res.username)
                 let room = user.room
+                user.IsInGame = false
                 user = userSocket.resetUser(user)
                 user.room = room
                 user.idTab = room
@@ -142,6 +158,84 @@ io.on('connection', (socket) => {
             })
             .catch(err => {
                 console.log(`erreur socket RESET ${err}`)
+            })
+    })
+    socket.on('askPlayWithPlayer', askDataPlay => {
+        checkToken(askDataPlay.token)
+            .then(res => {
+                let user = userSocket.searchUserSocket(res.username)
+                let userVs = userSocket.searchUserSocket(askDataPlay.vs)
+                if (userVs) {
+                    let room = `${user.name}_${userVs.name}`
+                    user.room = room
+                    user.versus = userVs.name
+                    user.isMyTurn = true
+                    user.idTab = room
+                    userVs.room = room
+                    userVs.versus = user.name
+                    userVs.isMyTurn = false
+                    userVs.idTab = room
+                    io.to(socket.id).emit('choiceSign')
+                    console.log(`envoi de la socket askChallenge ${JSON.stringify(userVs)}`)
+                    io.to(userVs.id).emit('askChallenge', { name: user.name })
+
+                }
+                else {
+                    console.log(`erreur askPlayWithPlayer : Aucun players found`)
+                    // envoi socket erreur
+                }
+            })
+            .catch(err => {
+                console.log(`erreur askPlayWithPlayer ${err}`)
+            })
+    })
+    socket.on('choiceSignPlayer', dataChoicePlayer => {
+        checkToken(dataChoicePlayer.token)
+            .then(res => {
+                let user = userSocket.searchUserSocket(res.username)
+                let userVs = userSocket.searchUserSocket(user.versus)
+                if (userVs) {
+                    user.choice = (dataChoicePlayer.choice === 'X') ? 'X' : 'O'
+                    userVs.choice = (user.choice === 'X') ? 'O' : 'X'
+                    userSocket.modifUser(user)
+                    userSocket.modifUser(userVs)
+                    io.to(socket.id).emit('challengerWaiting', { name: userVs.name })
+                }
+                else {
+                    console.log(`erreur choiceSignPlayer : Aucun players found`)
+                    // envoi socket erreur
+                }
+            })
+            .catch(err => {
+                console.log(`erreur choiceSignPlayer ${err}`)
+            })
+    })
+    socket.on('acceptChallenge', data => {
+        checkToken(data.token)
+            .then(res => {
+                let user = userSocket.searchUserSocket(res.username)
+                let userVs = userSocket.searchUserSocket(user.versus)
+                if (data.opt.confirm === 'accept') {
+                    if (userVs) {
+                        socket(user.id).join(user.room)
+                        socket(userVs).join(userVs.room)
+                        io.to(user.room).emit('startGame')
+                    }
+                    else {
+                        console.log(`erreur acceptChallenge : Aucun players found`)
+                        // envoi socket erreur
+                    }
+                }
+                else {
+                    userSocket.resetUser(user)
+                    userSocket.resetUser(userVs)
+                    io.to(userVs.id).emit('cancelChallenge', { name: user.name })
+                    io.to(user.id).emit('cancelChallenge')
+
+                }
+            })
+            .catch(err => {
+                console.log(`erreur acceptChallenge ${err}`)
             })
     })
 

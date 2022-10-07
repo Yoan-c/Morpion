@@ -9,7 +9,7 @@ let submitCreate = document.getElementById('submitCreate')
 let msgInfo = document.getElementById('msgInfo')
 let modal = document.getElementById('modal');
 modal.style.display = 'flex';
-const socket = io('http://localhost:3000');
+const socket = io();
 
 const addModal = () => {
     let modal = document.getElementById('modal')

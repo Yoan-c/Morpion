@@ -50,6 +50,7 @@ header a {
     height: 40px;
     width: 200px;
     text-align: center;
+    cursor: pointer;
 }
 
 /* 
@@ -235,22 +236,36 @@ td {
 }
 
 .modal-users {
-    display : flex;
-    justify-content : center;
-    flex-wrap : wrap; 
-    flex-direction : column;
-    align-items : center;
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: column;
+    overflow: overlay;
+    width: 200px;
+    height: 250px;
+    margin: auto auto;
 }
 
-.connected, .notConnected {
-    margin-right : 10px
+.connected,
+.notConnected,
+.busy {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    position: relative;
+    bottom: 2px;
 }
 
-.connected{
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    background: green;
+.notConnected {
+    background: #cccccc;
+}
+
+.connected {
+    background: #3AF24B;
+}
+
+.busy {
+    background: #F44336;
 }
 
 .modal-text {
@@ -261,13 +276,21 @@ td {
     align-self: center;
 }
 
+.lineUser {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
 #btnEasy {
     background-color: darkcyan;
 }
 
-#btnHard {
+#btnHard,
+.btn-refuse {
     background-color: darkred
 }
+
 
 #btnEasy,
 #btnHard {
@@ -344,4 +367,9 @@ td {
     top: 150px;
     text-align: center;
     margin: auto auto;
+}
+
+.linkRefuse {
+    text-decoration: none;
+    color: #50658F;
 }

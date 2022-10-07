@@ -16,12 +16,14 @@ function addUserSocket(id, name, isConnected, updatedAt, level) {
             versus: "",
             isMyTurn: false,
             idTab: "",
-            isEnd: false
+            isEnd: false,
+            isInGame: false
         }]
     }
     else {
         searchUser.isConnected = true
-       modifUser(searchUser)
+        searchUser.id = id
+        modifUser(searchUser)
     }
     return users
 }
@@ -52,14 +54,15 @@ function modifUser(user) {
 function modifUser(user) {
     return users.find(userData => {
         if (userData.name == user.name) {
-            userData.level = (user.level) ?user.level : userData.level
+            userData.level = (user.level) ? user.level : userData.level
             userData.room = (user.room) ? user.room : userData.room
             userData.choice = (user.choice) ? user.choice : userData.choice
             userData.versus = (user.versus) ? user.versus : userData.versus
             userData.isMyTurn = (user.isMyTurn) ? user.isMyTurn : userData.isMyTurn
-            userData.idTab = (user.idTab) ? user.idTab : userData.idTab 
+            userData.idTab = (user.idTab) ? user.idTab : userData.idTab
             userData.isEnd = (user.isEnd) ? user.isEnd : userData.isEnd
             userData.isConnected = (user.isConnected) ? user.isConnected : userData.isConnected
+            userData.isInGame = (user.isInGame) ? user.isInGame : userData.isInGame
         }
     })
 }
@@ -75,6 +78,7 @@ function resetUser(user) {
     user.idTab = ""
     user.isMyTurn = false
     user.isEnd = false
+    user.isInGame = false
     return user
 }
 

@@ -9,7 +9,7 @@ window.onload = (e) => {
     let defiIA = document.getElementById("defiIA")
     modalClose.onclick = () => {
         modal.style.display = 'none';
-        
+
     }
     defiIA.onclick = () => {
         socket.emit('reset', { token })
@@ -122,7 +122,7 @@ window.onload = (e) => {
         setTimeout(() => {
             modal.style.display = 'flex'
         }, 1500)
-        
+
     })
 
     socket.on('players', players => {
