@@ -217,9 +217,8 @@ io.on('connection', (socket) => {
                 let userVs = userSocket.searchUserSocket(user.versus)
                 if (data.opt.confirm === 'accept') {
                     if (userVs) {
-                        socket(user.id).join(user.room)
-                        socket(userVs).join(userVs.room)
-                        io.to(user.room).emit('startGame')
+                        io.to(user.id).emit('startGame')
+                        io.to(userVs.id).emit('startGame', { 'ready': true })
                     }
                     else {
                         console.log(`erreur acceptChallenge : Aucun players found`)
