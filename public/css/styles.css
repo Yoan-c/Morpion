@@ -9,7 +9,7 @@ regle pour telecharger une font
 
 
 body {
-    font-family: "Bodo Amat";
+    font-family: "Bodo Amat" , cursive;
     font-size: 12px;
 }
 
@@ -101,12 +101,6 @@ header a {
     display: none;
 }
 
-/*
-    ASIDE liste joueur co
-*/
-.aside {
-    display: none;
-}
 
 
 /*
@@ -151,10 +145,12 @@ td {
 
 .showX {
     animation: 1s ease-in slideinX;
+    color: #50658F;
 }
 
 .showO {
     animation: 1s ease-in slideinO;
+    color: #C49B93;
 }
 
 @keyframes slideinX {

@@ -25,8 +25,6 @@ sequelize.initDb()
 
 
 io.on('connection', (socket) => {
-    console.log(`NEW WS CONNECTION ${socket.id}`)
-
 
     socket.on('loadGame', (data) => {
         checkToken(data.token)

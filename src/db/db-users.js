@@ -4,13 +4,9 @@ const users = [
         password: 'test'
     },
     {
-        username: 'q',
-        password: 'q'
+        username: 'admin',
+        password: 'test'
     },
-    {
-        username: 'a',
-        password: 'a'
-    }
 ]
 
 module.exports = users

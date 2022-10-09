@@ -126,9 +126,6 @@ window.onload = () => {
         socket.emit('choiceSignPlayer', { token, choice })
     }
 
-    socket.on('message', data => {
-        console.log(`RECU message serveur ${data}`)
-    })
     socket.on('askChallenge', dataChallenger => {
 
         console.log(`challenger ${JSON.stringify(dataChallenger)}`)
