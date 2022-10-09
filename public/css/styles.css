@@ -1,10 +1,12 @@
 /*
 regle pour telecharger une font
+*/
 @font-face {
     font-family: "Bodo Amat";
-    src: url("/public/font/BodoAmat.woff");
+    src: url("../font/BodoAmat.ttf");
+    font-display: auto;
 }
-*/
+
 
 body {
     font-family: "Bodo Amat";
