@@ -21,7 +21,8 @@ function checkTab(tabGameSocket, data, user) {
         choice: "X",
         choiceVs: (user.choice === "X") ? "O" : "X",
         username : user.name,
-        end: true
+        end: true,
+        isMyTurn : false
     }
     position -= 1
     if (checkChangementTab(tabGameSocket.newTab, tabGame, position) === 1) {

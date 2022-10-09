@@ -17,7 +17,8 @@ function addUserSocket(id, name, isConnected, updatedAt, level) {
             isMyTurn: false,
             idTab: "",
             isEnd: false,
-            isInGame: false
+            isInGame: false,
+            isReady : false
         }]
     }
     else {
@@ -63,6 +64,7 @@ function modifUser(user) {
             userData.isEnd = (user.isEnd) ? user.isEnd : userData.isEnd
             userData.isConnected = (user.isConnected) ? user.isConnected : userData.isConnected
             userData.isInGame = (user.isInGame) ? user.isInGame : userData.isInGame
+            userData.isReady = (user.isReady) ? user.isReady : userData.isReady
         }
     })
 }
@@ -79,6 +81,7 @@ function resetUser(user) {
     user.isMyTurn = false
     user.isEnd = false
     user.isInGame = false
+    user.isReady = false
     return user
 }
 

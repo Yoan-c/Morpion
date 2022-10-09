@@ -139,6 +139,7 @@ window.onload = () => {
         let btnAccept = document.createElement('button')
         let btnRefuse = document.createElement('button')
 
+        modalUser.innerHTML = ""
         let p = document.createElement('p')
         p.setAttribute('class', 'askChallengeName')
         p.textContent = `${dataChallenger.name} vous défie`
@@ -164,11 +165,25 @@ window.onload = () => {
     let acceptChallenge = (opt) => {
         socket.emit('acceptChallenge', { token, opt })
     }
-    socket.on(`challengerWaiting`, askChallenger => {
-        console.log(`attente de la réponse de ${JSON.stringify(askChallenger)}`)
-    })
-    socket.on(`startGame`, _ => {
-        console.log(`Redirection vers page morpion `)
+
+    socket.on(`startGame`, data => {
+        let modalUser = document.getElementById('modal-users')
+        console.log(`test ${JSON.stringify(data)}`)
+        if (data && data.isReady){
+            console.log(`Redirection vers page morpion `)
+            document.location.href = `/morpion`
+        }
+        else {
+            let pText = document.createElement('p')
+            let pLoad = document.createElement('p')
+            pText.textContent = `Attente de l'adversaire`
+            pText.setAttribute('class', 'waitAdvText')
+            pLoad.setAttribute('class', `loader waitLoad`)
+            console.log("attente de la réponde de l'adversaire")
+            modalUser.innerHTML = ""
+            modalUser.appendChild(pText)
+            modalUser.appendChild(pLoad)
+        }
     })
     socket.on(`cancelChallenge`, data => {
         if (data && data.name) {

@@ -42,35 +42,31 @@ io.on('connection', (socket) => {
                 tabSocket.addtabGameSocket(user.room, tab, tab)
                 user.idTab = user.room
                 userSocket.modifUser(user)
-                io.to(user.room).emit("loadGame", { choice: user.choice, isMyturn: user.isMyTurn, versus: user.versus })
+                io.to(user.id).emit("loadGame", { choice: user.choice, isMyTurn: user.isMyTurn, versus: user.versus })
             })
             .catch(err => {
                 console.log(`erreur loadGame ${err}`)
             })
     })
 
-    // socket.emit('message', "WELCOME")
     socket.on('play', (data) => {
-        console.log(`RECU du client ${JSON.stringify(data)}`)
         checkToken(data.token)
             .then(res => {
                 let user = userSocket.searchUserSocket(res.username)
-                let userVersus = ""
+                let userVersus = userSocket.searchUserSocket(user.versus)
+                let tabGame = tabSocket.searchtabGameSocket(user.idTab)
                 if (data.versus === "IA") {
-                    // calcul et faire jouer l'IA
-                    let tabGame = tabSocket.searchtabGameSocket(user.idTab)
                     user.IsInGame = true
                     userSocket.modifUser(user)
                     if (tabGame) {
                         res = IAGame.IAGame(tabGame, data, user)
                         if (res) {
-                            console.log(`entre la`)
                             if (res.win || res.end) {
-                                console.log(`STOPPER LE JEU ${JSON.stringify(res)}`)
                                 io.to(user.room).emit('endGame', { res, username: user.name })
                             }
                             else {
                                 user.isMyTurn = true
+                                res.isMyTurn = true
                                 io.to(user.room).emit('play', res)
                             }
                         }
@@ -84,9 +80,25 @@ io.on('connection', (socket) => {
                     }
                 }
                 else {
-                    // A MODIFIER POUR LE TOUR DE L'ADVERSAIRE
+                    res = checkGame.checkTab(tabGame, data, user)
+                    user.isMyTurn = false
+                    userVersus.isMyTurn = true
+                    userSocket.modifUser(user)
+                    userSocket.modifUser(userVersus)
                     userVersus = userSocket.searchUserSocket(data.versus)
-                    io.to("q_IA").emit("message", "Au tour de l'adversaire")
+                    res.isMyTurn = user.isMyTurn
+                    if (res.win || res.end) {
+                        res.name = user.name 
+                        userSocket.modifUser(user)
+                        userSocket.modifUser(userVersus)
+                        io.to(user.id).emit('endGame', { res, username: user.name})
+                        io.to(userVersus.id).emit('endGame', { res, username: userVersus.name})
+                    }
+                    else {
+                        socket.to(user.id).emit("play", res)
+                        res.isMyTurn = userVersus.isMyTurn
+                        socket.to(userVersus.id).emit("play", res)
+                    }
                 }
             })
             .catch(err => {
@@ -95,7 +107,6 @@ io.on('connection', (socket) => {
     })
 
     socket.on('inscritpion', (token) => {
-        console.log("ENtre ici")
         checkToken(token)
             .then(data => {
                 if (data.isConnected)
@@ -114,7 +125,6 @@ io.on('connection', (socket) => {
             .then(data => {
                 let tabUserSign = userSocket.users.map(user => { return { name: user.name, isConnected: user.isConnected, isInGame: user.IsInGame } })
                 tabUserSign = tabUserSign.filter(user => user.name !== data.username)
-                console.log(`tabuser ${JSON.stringify(tabUserSign)}, data ${JSON.stringify(data)}`)
                 socket.emit('showPlayers', tabUserSign)
             })
             .catch(err => {
@@ -176,7 +186,6 @@ io.on('connection', (socket) => {
                     userVs.isMyTurn = false
                     userVs.idTab = room
                     io.to(socket.id).emit('choiceSign')
-                    console.log(`envoi de la socket askChallenge ${JSON.stringify(userVs)}`)
                     io.to(userVs.id).emit('askChallenge', { name: user.name })
 
                 }
@@ -197,9 +206,11 @@ io.on('connection', (socket) => {
                 if (userVs) {
                     user.choice = (dataChoicePlayer.choice === 'X') ? 'X' : 'O'
                     userVs.choice = (user.choice === 'X') ? 'O' : 'X'
+                    user.isReady = true
                     userSocket.modifUser(user)
                     userSocket.modifUser(userVs)
-                    io.to(socket.id).emit('challengerWaiting', { name: userVs.name })
+                    socket.join(user.room)
+                    io.to(user.room).emit('startGame', {isReady : userVs.isReady})
                 }
                 else {
                     console.log(`erreur choiceSignPlayer : Aucun players found`)
@@ -216,9 +227,11 @@ io.on('connection', (socket) => {
                 let user = userSocket.searchUserSocket(res.username)
                 let userVs = userSocket.searchUserSocket(user.versus)
                 if (data.opt.confirm === 'accept') {
+                    socket.join(user.room)
+                    user.isReady = true
+                    userSocket.modifUser(user)
                     if (userVs) {
-                        io.to(user.id).emit('startGame')
-                        io.to(userVs.id).emit('startGame', { 'ready': true })
+                        io.to(user.room).emit('startGame', { isReady : userVs.isReady })
                     }
                     else {
                         console.log(`erreur acceptChallenge : Aucun players found`)

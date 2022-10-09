@@ -37,15 +37,21 @@ window.onload = (e) => {
 
         })
         .catch(error => {
-            console.log("errors")
             redirectConnect()
         })
 
 
     function loadgame(dataGame) {
+        let round = document.querySelector('#roundPlay');
+
+        round.dataset.isRound = (dataGame.isMyTurn) ? 1 : 0
         chx.innerHTML = dataGame.choice
-        let defiNameMsg = (dataGame.versus = "IA") ? `vous défiez l'${dataGame.versus}` : `Vous défiez ${dataGame.versus}`
+        let defiNameMsg = (dataGame.versus == "IA") ? `vous défiez l'${dataGame.versus}` : `Vous défiez ${dataGame.versus}`
         defiName.innerHTML = `${defiNameMsg} au Morpion`
+        if (dataGame.isMyTurn) 
+            round.innerHTML = `A votre tour`
+        else
+            round.innerHTML = `Au tour de ${dataGame.versus}`
         for (let i = 0; i < 9; i++) {
             let caseI = document.getElementById(`case_${i + 1}`)
             caseI.onclick = () => {
@@ -86,29 +92,38 @@ window.onload = (e) => {
 
     }
 
-    socket.on('play', msg => {
+    function setGame(msg) {
         let round = document.querySelector('#roundPlay');
         setTimeout(() => {
             if (msg.position && msg.choice) {
                 let { position, choice } = msg
-                console.log(`test ${position} et msg ${choice}`)
                 document.getElementById(`case_${position}`).innerHTML = choice
                 document.getElementById(`case_${position}`).setAttribute('class', `show${choice}`)
-                round.innerHTML = `A votre tour`
-                round.dataset.isRound = 1;
+                if (msg.isMyTurn) {
+                    round.innerHTML = `A votre tour`
+                    round.dataset.isRound = 1;
+                } else {
+                    round.innerHTML = `Au tour de votre adversaire`
+                    round.dataset.isRound = 0;
+                }
             }
         }, 1200)
+    }
 
+    socket.on('play', msg => {
+        setGame(msg)
     })
+
+
     socket.on('endGame', dataEnd => {
         let round = document.querySelector('#roundPlay');
         let endMsg = document.getElementById(`endMsg`)
         let msg
-        if (dataEnd.res.win) {
 
-            console.log(`message Fin de game win `)
+        if (dataEnd.res.win) {
+            setGame(dataEnd.res)
             if (dataEnd.res.name === dataEnd.username) {
-                msg = `Bravo vous avez gagné la parite`
+                msg = `Bravo vous avez gagné la partie`
                 round.dataset.isRound = 0;
             }
             else
@@ -119,6 +134,7 @@ window.onload = (e) => {
         else if (dataEnd.res.end) {
             endMsg.innerHTML = "Match NUL"
         }
+
         setTimeout(() => {
             modal.style.display = 'flex'
         }, 1500)
