@@ -6,31 +6,33 @@ const bcrypt = require('bcrypt')
 const database = 'Morpion'
 const host = 'root'
 const password = ''
-const sequelize = new Sequelize(database, host, password, {
+
+let sequelize;
+if (process.env.NODE_ENV === 'production') {
+    sequelize = new Sequelize(database, host, password, {
+    host: 'localhost',
+    dialect: 'mariadb',
+    logging: true
+    })
+}
+else {
+    sequelize = new Sequelize(database, host, password, {
     host: 'localhost',
     dialect: 'mariadb',
     logging: false
 })
+}
 
 const userModel = UserModel(sequelize, DataTypes)
 
 const initDb = () => {
-    sequelize.sync({ force: true })
+    return sequelize.sync()
         .then(data => {
-            users.map(user => {
-                bcrypt.hash(user.password, 10, (err, hash) => {
-                    userModel.create({
-                        username: user.username,
-                        password: hash
-                    })
-                })
-
-            })
             console.log("base de donnée synchronisée et initialisée")
         })
 }
 
 
 module.exports = {
-    initDb, userModel
+    initDb, userModel, sequelize
 }

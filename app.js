@@ -9,13 +9,17 @@ const tabSocket = require('./src/socket/tabGameSocket')
 const checkToken = require('./src/functions/checkToken')
 const checkGame = require('./src/functions/checkGame')
 const IAGame = require('./src/game/IA/IA')
+const checkUser = require('./src/functions/checkUser')
+const favicon = require('serve-favicon')
+
 
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 const publicPath = path.join(__dirname, 'public')
 
-app.use(bodyParser.json())
+app.use(favicon(__dirname + '/favicon.ico'))
+.use(bodyParser.json())
     .use(express.static(publicPath))
 
 const port = process.env.PORT || 3000
@@ -105,6 +109,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('inscritpion', (token) => {
+      checkUser.checkDateUser()
         checkToken(token)
             .then(data => {
                 if (data.isConnected)
@@ -261,7 +266,13 @@ require('./src/root/accueil')(app)
 require('./src/root/index')(app)
 require('./src/root/games')(app)
 
+// On gère les routes 404.
+app.use(({res}) => {
+    const message = 'Impossible de trouver la ressource demandée !'
+      res.status(404).json({message});
+  });
 
+  
 server.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
