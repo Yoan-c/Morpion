@@ -9,7 +9,8 @@ let submitCreate = document.getElementById('submitCreate')
 let msgInfo = document.getElementById('msgInfo')
 let modal = document.getElementById('modal');
 modal.style.display = 'flex';
-const socket = io();
+
+const socket = io()
 
 const addModal = () => {
     let modal = document.getElementById('modal')
@@ -49,7 +50,7 @@ submit.onclick = (e) => {
         .then(token => {
             localStorage.setItem('token', token)
             socket.emit('inscritpion', token)
-            document.location.href = 'http://localhost:3000/accueil'
+            document.location.href = `${URL_API}accueil`
         })
         .catch(err => {
             if (!err.err) {
@@ -75,7 +76,7 @@ submitCreate.onclick = (e) => {
     create(username, password, Confirmpass)
         .then(token => {
             localStorage.setItem('token', token)
-            document.location.href = 'http://localhost:3000/accueil'
+            document.location.href = `${URL_API}accueil`
         })
         .catch(err => {
             if (!err.err) {

@@ -1,4 +1,4 @@
-const express = require('express')
+
 const http = require('http')
 const socketio = require('socket.io')
 const sequelize = require('./src/db/sequelize')
@@ -12,7 +12,11 @@ const IAGame = require('./src/game/IA/IA')
 const checkUser = require('./src/functions/checkUser')
 const favicon = require('serve-favicon')
 
+if (typeof(PhusionPassenger) !== 'undefined') {
+    PhusionPassenger.configure({ autoInstall: false });
+}
 
+const express = require('express')
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
@@ -109,7 +113,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('inscritpion', (token) => {
-      checkUser.checkDateUser()
+   //   checkUser.checkDateUser()
         checkToken(token)
             .then(data => {
                 if (data.isConnected)
@@ -273,8 +277,16 @@ app.use(({res}) => {
   });
 
   
+/*
 server.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
+*/
+
+if (typeof(PhusionPassenger) !== 'undefined') {
+    server.listen('passenger');
+} else {
+    server.listen(3000);
+}
 
 

@@ -21,8 +21,10 @@ window.onload = () => {
     ask(token, 'authorization')
         .then(result => {
             socket.emit('inscritpion', token)
+            socket.emit('reset', { token })
             // rajouter le socket inscritpion
             // retirer le chargement 
+            
             defiIA.onclick = () => { modal.style.display = 'flex'; }
             btnEasy.onclick = () => { choiceLevel(1, socket) }
             btnHard.onclick = () => { choiceLevel(2, socket) }
@@ -37,7 +39,6 @@ window.onload = () => {
         modal.style.display = 'none';
         let modalUser = document.getElementById('modal-users')
         let modalRules = document.getElementById('modal-rules')
-        console.log(`fermer ${JSON.stringify(modalUser)}`)
         modalUser.innerHTML = ""
         modalUser.style.display = 'none'
         if (modalRules)
@@ -49,7 +50,6 @@ window.onload = () => {
     }
 
     function askUserConnect() {
-        console.log(`envoi une demande de liste`)
         socket.emit('askPlayers', token)
     }
     socket.on('showPlayers', players => {
@@ -72,8 +72,10 @@ window.onload = () => {
             p.textContent = dataUser[i].name
             p.style.cursor = (dataUser[i].isConnected) ? "pointer" : "not-allowed"
             p.style.cursor = (dataUser[i].isInGame) ? "not-allowed" : "pointer"
-            p.onclick = () => {
-                socket.emit('askPlayWithPlayer', { token, vs: dataUser[i].name })
+            if (dataUser[i].isConnected){
+                p.onclick = () => {
+                    socket.emit('askPlayWithPlayer', { token, vs: dataUser[i].name })
+                }
             }
             divLineUser.appendChild(divIsCo)
             divLineUser.appendChild(p)
@@ -88,7 +90,7 @@ window.onload = () => {
         socket.emit('IA', data)
         if (isChoice === 1) {
             socket.emit('join_IA', token)
-            document.location.href = "http://localhost:3000/morpion"
+            document.location.href = `${PATH}morpion`
         } else {
             let modalRules = document.getElementById('modal-rules')
             modalRules.removeChild(btnEasy)
@@ -128,7 +130,6 @@ window.onload = () => {
 
     socket.on('askChallenge', dataChallenger => {
 
-        console.log(`challenger ${JSON.stringify(dataChallenger)}`)
         let modalBody = document.getElementById('modal-body')
         let modalRules = document.getElementById('modal-rules')
         let modalUser = document.getElementById('modal-users')
@@ -165,9 +166,7 @@ window.onload = () => {
 
     socket.on(`startGame`, data => {
         let modalUser = document.getElementById('modal-users')
-        console.log(`test ${JSON.stringify(data)}`)
         if (data && data.isReady){
-            console.log(`Redirection vers page morpion `)
             document.location.href = `/morpion`
         }
         else {
@@ -176,7 +175,6 @@ window.onload = () => {
             pText.textContent = `Attente de l'adversaire`
             pText.setAttribute('class', 'waitAdvText')
             pLoad.setAttribute('class', `loader waitLoad`)
-            console.log("attente de la réponde de l'adversaire")
             modalUser.innerHTML = ""
             modalUser.appendChild(pText)
             modalUser.appendChild(pLoad)

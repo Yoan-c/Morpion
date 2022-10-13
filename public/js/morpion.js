@@ -1,5 +1,5 @@
 window.onload = (e) => {
-    const socket = io('http://localhost:3000');
+    const socket = io();
     const token = localStorage.getItem("token");
     let chx = document.getElementById('choice')
     let defiName = document.getElementById('defiName')
@@ -78,9 +78,7 @@ window.onload = (e) => {
             tabCase[position - 1].isPlayed = true
             setPositionGame(position, tabCase, dataGame.versus)
         }
-        else {
-            console.log("deja coché ou pas votre tour")
-        }
+
     }
 
     function setPositionGame(position, tabCase, versus) {
