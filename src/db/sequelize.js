@@ -3,19 +3,31 @@ const users = require('./db-users')
 const UserModel = require('../models/users')
 const bcrypt = require('bcrypt')
 
-const database = 'Morpion'
-const host = 'root'
-const password = ''
 
 let sequelize;
 if (process.env.NODE_ENV === 'production') {
+    /*
+    o2switch
+    const database = 'fnlb4958_Morpion'
+    const host = 'fnlb4958_timetiss'
+    const password = 'Solenneetmoi972'
+    */
+   // planetHoster
+    const database = 'hgdhpnkd_Morpion'
+    const host = 'hgdhpnkd_ti-metiss'
+    const password = 'Solenneetmoi972'
+    
+    
     sequelize = new Sequelize(database, host, password, {
     host: 'localhost',
     dialect: 'mariadb',
-    logging: true
+    logging: false
     })
 }
 else {
+    const database = 'Morpion'
+    const host = 'root'
+    const password = ''
     sequelize = new Sequelize(database, host, password, {
     host: 'localhost',
     dialect: 'mariadb',

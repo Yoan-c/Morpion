@@ -6,7 +6,6 @@ const userSocket = require('../../socket/userSocket')
 module.exports = (app) => {
     app.post('/deconnexion', verifyToken, (req, res) => {
         data = true
-        console.log(`name user ${req.name}`)
         userModel.findOne({
             where: {
                 username: req.name

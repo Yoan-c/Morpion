@@ -139,6 +139,7 @@ td {
 
     height: 60px;
     width: 60px;
+    cursor: pointer;
 }
 
 
@@ -257,6 +258,7 @@ td {
 
 .notConnected {
     background: #cccccc;
+    pointer-events: none;
 }
 
 .connected {

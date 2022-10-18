@@ -1,7 +1,8 @@
-const PATH = 'http://localhost:3000/'
+const URL_API = 'http://localhost:3000/'
+const PATH = ''
 
 const redirectConnect = () => {
-    document.location.href = PATH
+    document.location.href = URL_API
 }
 
 const login = (username, password) => {
@@ -42,7 +43,6 @@ const login = (username, password) => {
 }
 
 const create = (username, password, confirmation) => {
-    console.log(`pass confirm ${confirmation}`)
     let data = JSON.stringify({ username, password, confirmation })
     return new Promise((resolve, reject) => {
         fetch(PATH + 'create',
@@ -62,7 +62,6 @@ const create = (username, password, confirmation) => {
                     resolve(datas.data.token)
                 }
                 else {
-                    console.log(`TEST ERREUR ${JSON.stringify(result)}`)
                     let error = {
                         msg: datas.data.msg
                     }
