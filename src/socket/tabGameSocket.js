@@ -20,10 +20,12 @@ function modifTabSocket(tabNow) {
 }
 
 function searchtabGameSocket(id) {
-    return tabGameSocket.find(tab => tab.id == id)
+    if (id)
+        return tabGameSocket.find(tab => tab.id == id)
 }
 
 function resetTab(tab) {
+    if (tab)
     for (let i = 0; i < 9; i++) {
         tab.oldTab[i] = false
         tab.newTab[i] = false

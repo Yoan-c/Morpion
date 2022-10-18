@@ -1,5 +1,6 @@
 const URL_API = 'http://localhost:3000/'
-const PATH = ''
+const PATH = 'http://localhost:3000/'
+
 
 const redirectConnect = () => {
     document.location.href = URL_API

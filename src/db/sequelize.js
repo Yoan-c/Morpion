@@ -6,16 +6,10 @@ const bcrypt = require('bcrypt')
 
 let sequelize;
 if (process.env.NODE_ENV === 'production') {
-    /*
-    o2switch
-    const database = 'fnlb4958_Morpion'
-    const host = 'fnlb4958_timetiss'
-    const password = 'Solenneetmoi972'
-    */
-   // planetHoster
-    const database = 'hgdhpnkd_Morpion'
-    const host = 'hgdhpnkd_ti-metiss'
-    const password = 'Solenneetmoi972'
+
+    const database = 'Morpion'
+    const host = 'nom'
+    const password = 'Mdp'
     
     
     sequelize = new Sequelize(database, host, password, {

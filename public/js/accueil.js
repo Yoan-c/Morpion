@@ -21,8 +21,10 @@ window.onload = () => {
     ask(token, 'authorization')
         .then(result => {
             socket.emit('inscritpion', token)
+            socket.emit('reset', { token })
             // rajouter le socket inscritpion
             // retirer le chargement 
+            
             defiIA.onclick = () => { modal.style.display = 'flex'; }
             btnEasy.onclick = () => { choiceLevel(1, socket) }
             btnHard.onclick = () => { choiceLevel(2, socket) }
